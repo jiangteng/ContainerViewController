@@ -1,0 +1,9 @@
+use_frameworks!
+
+target 'ContainerViewController_Example' do
+  pod 'ContainerViewController', :path => '../'
+
+  target 'ContainerViewController_Tests' do
+
+  end
+end

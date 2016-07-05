@@ -1,0 +1,6 @@
+framework module ContainerViewController {
+  umbrella header "ContainerViewController-umbrella.h"
+
+  export *
+  module * { export * }
+}

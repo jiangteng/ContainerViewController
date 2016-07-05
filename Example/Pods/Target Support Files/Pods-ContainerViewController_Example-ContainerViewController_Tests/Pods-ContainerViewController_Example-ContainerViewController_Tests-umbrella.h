@@ -1,0 +1,6 @@
+#import <UIKit/UIKit.h>
+
+
+FOUNDATION_EXPORT double Pods_ContainerViewController_Example_ContainerViewController_TestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_ContainerViewController_Example_ContainerViewController_TestsVersionString[];
+

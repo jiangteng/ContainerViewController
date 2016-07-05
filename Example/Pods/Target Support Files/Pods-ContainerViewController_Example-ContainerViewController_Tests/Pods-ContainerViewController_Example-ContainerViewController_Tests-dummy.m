@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_ContainerViewController_Example_ContainerViewController_Tests : NSObject
+@end
+@implementation PodsDummy_Pods_ContainerViewController_Example_ContainerViewController_Tests
+@end
