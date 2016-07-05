@@ -14,7 +14,7 @@ With the swift implementation ContainerViewController.
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-![GIF](example.gif)
+<img src="example.gif" height="500px">
 
 ## Requirements
 * Xcode 7.3+
