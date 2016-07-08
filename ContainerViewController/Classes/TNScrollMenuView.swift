@@ -8,10 +8,6 @@
 
 import UIKit
 
-let kYSLScrollMenuViewWidth:CGFloat  = 90;
-let kYSLScrollMenuViewMargin:CGFloat = 10.0;
-let kYSLIndicatorHeight:CGFloat = 1.0;
-
 protocol TNScrollMenuViewDelegate : class {
     func scrollMenuViewSelectedIndex(index: NSInteger);
 }
@@ -22,6 +18,13 @@ class TNScrollMenuView: UIView {
     var scrollView:UIScrollView?
     var itemViewArray:[UILabel]? = [UILabel]()
     var itemSelectedTitleColor = UIColor?()
+    
+    var menuViewWidth:CGFloat = 70
+    var menuViewMargin:CGFloat = 5.0
+    var indicatorHeight:CGFloat = 2.0
+    
+    
+    
     
     var viewbackgroundColor:UIColor?{
         
@@ -63,7 +66,7 @@ class TNScrollMenuView: UIView {
             var views:[UILabel] = [UILabel]()
             
             for index in 0..<itemTitleArray!.count {
-                let frame = CGRectMake(0, 0, kYSLScrollMenuViewWidth, CGRectGetHeight(self.frame))
+                let frame = CGRectMake(0, 0, menuViewWidth, CGRectGetHeight(self.frame))
                 let itemView = UILabel.init(frame: frame)
                 self.scrollView?.addSubview(itemView)
                 itemView.tag = index
@@ -80,7 +83,7 @@ class TNScrollMenuView: UIView {
             
             self.itemViewArray = views
             
-            self.indicatorView = UIView.init(frame: CGRectMake(0, self.scrollView!.frame.size.height - kYSLIndicatorHeight, kYSLScrollMenuViewWidth, kYSLIndicatorHeight))
+            self.indicatorView = UIView.init(frame: CGRectMake(0, self.scrollView!.frame.size.height - indicatorHeight, menuViewWidth, indicatorHeight))
             self.indicatorView.backgroundColor = self.itemIndicatorColor
             self.scrollView?.addSubview(self.indicatorView)
         }
@@ -95,12 +98,15 @@ class TNScrollMenuView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override init(frame: CGRect) {
+    init(frame: CGRect,mwidth:CGFloat = 70,mmargin:CGFloat = 5.0,mindicator:CGFloat = 2.0) {
         super.init(frame: frame)
 
         viewbackgroundColor = UIColor.whiteColor()
         self.backgroundColor = viewbackgroundColor!
         
+        menuViewWidth = mwidth
+        menuViewMargin = mmargin
+        indicatorHeight = mindicator
 
         itemfont = UIFont.systemFontOfSize(16)
         itemTitleColor = UIColor.init(colorLiteralRed: 0.866667, green: 0.866667, blue: 0.866667, alpha: 1.0)
@@ -113,21 +119,26 @@ class TNScrollMenuView: UIView {
         self.addSubview(scrollView!)
     }
     
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
+    }
+    
     internal func setIndicatorViewFrame(ratio:CGFloat,isNextItem:Bool,toIndex:NSInteger){
         
         var indicatorX:CGFloat = 0.0
         if isNextItem {
-            indicatorX = (kYSLScrollMenuViewMargin + kYSLScrollMenuViewWidth)*ratio+kYSLScrollMenuViewWidth*CGFloat(toIndex) + kYSLScrollMenuViewMargin*CGFloat(toIndex+1)
+            indicatorX = (menuViewMargin + menuViewWidth)*ratio+menuViewWidth*CGFloat(toIndex) + menuViewMargin*CGFloat(toIndex+1)
         }else{
             
-            indicatorX =  ((kYSLScrollMenuViewMargin + kYSLScrollMenuViewWidth) * CGFloat(1 - ratio) ) + (CGFloat(toIndex) * kYSLScrollMenuViewWidth) + (CGFloat(toIndex + 1) * kYSLScrollMenuViewMargin);
+            indicatorX =  ((menuViewMargin + menuViewWidth) * CGFloat(1 - ratio) ) + (CGFloat(toIndex) * menuViewWidth) + (CGFloat(toIndex + 1) * menuViewMargin);
         }
         
-        if (indicatorX < kYSLScrollMenuViewMargin || indicatorX > self.scrollView!.contentSize.width - (kYSLScrollMenuViewMargin + kYSLScrollMenuViewWidth)) {
+        if (indicatorX < menuViewMargin || indicatorX > self.scrollView!.contentSize.width - (menuViewMargin + menuViewWidth)) {
             return;
         }
 
-        self.indicatorView.frame = CGRectMake(indicatorX, (self.scrollView?.frame.size.height)! - kYSLIndicatorHeight, kYSLScrollMenuViewWidth, kYSLIndicatorHeight)
+        self.indicatorView.frame = CGRectMake(indicatorX, (self.scrollView?.frame.size.height)! - indicatorHeight, menuViewWidth, indicatorHeight)
     }
     
     internal func setItem(itemTextColor:UIColor?,selectedItemTextColor:UIColor?,currentIndex:NSInteger){
@@ -144,11 +155,11 @@ class TNScrollMenuView: UIView {
         for index in 0..<self.itemViewArray!.count {
             let label = self.itemViewArray![index]
             if index == currentIndex {
-                label.alpha = 0.0
-                UIView.animateWithDuration(0.75, delay: 0.0, options: [.CurveLinear , .AllowUserInteraction], animations: {
-                    label.alpha = 1.0
+//                label.alpha = 0.0
+//                UIView.animateWithDuration(0.75, delay: 0.0, options: [.CurveLinear , .AllowUserInteraction], animations: {
+//                    label.alpha = 1.0
                     label.textColor = self.itemSelectedTitleColor
-                    }, completion:nil)
+//                    }, completion:nil)
             }else{
                 label.textColor = self.itemTitleColor
             }
@@ -167,13 +178,13 @@ class TNScrollMenuView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        var x:CGFloat = kYSLScrollMenuViewMargin
+        var x:CGFloat = menuViewMargin
         
         for index in 0..<self.itemViewArray!.count {
-            let width = kYSLScrollMenuViewWidth
+            let width = menuViewWidth
             let iteV:UIView = self.itemViewArray![index] as UIView
             iteV.frame = CGRectMake(x, 0, width, (self.scrollView?.frame.height)!)
-            x += width + kYSLScrollMenuViewMargin
+            x += width + menuViewMargin
         }
         
         self.scrollView?.contentSize = CGSizeMake(x, (self.scrollView?.frame.height)!)
