@@ -110,7 +110,9 @@ public class TNContainerViewController: UIViewController {
         super.viewWillLayoutSubviews()
        
         self.contentScrollView?.frame = CGRectMake(0, topBarHeight! + menuViewHeight, self.view.frame.size.width, self.view.frame.size.height - topBarHeight! - menuViewHeight)
-       
+
+        self.contentScrollView?.contentSize = CGSizeMake((self.contentScrollView?.frame.width)! * CGFloat( self.childControllers.count), (self.contentScrollView?.frame.height)!)
+
         for index in 0..<self.childControllers.count {
             let obj = self.childControllers.objectAtIndex(index)
             if obj is UIViewController {
