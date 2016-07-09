@@ -105,7 +105,24 @@ public class TNContainerViewController: UIViewController {
         self.scrollMenuViewSelectedIndex(0)
         
     }
+    
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+       
+        self.contentScrollView?.frame = CGRectMake(0, topBarHeight! + menuViewHeight, self.view.frame.size.width, self.view.frame.size.height - topBarHeight! - menuViewHeight)
+       
+        for index in 0..<self.childControllers.count {
+            let obj = self.childControllers.objectAtIndex(index)
+            if obj is UIViewController {
+                let controller:UIViewController = obj as! UIViewController
+                let scrollWidth = contentScrollView!.frame.size.width;
+                let scrollHeght = contentScrollView!.frame.size.height;
+                controller.view.frame = CGRectMake(CGFloat(index) * scrollWidth, 0, scrollWidth, scrollHeght);
+            }
+        }
         
+    }
+    
     private func setChildViewController(currentIndex:NSInteger){
         for index in 0..<self.childControllers.count {
             let obj = self.childControllers.objectAtIndex(index)
