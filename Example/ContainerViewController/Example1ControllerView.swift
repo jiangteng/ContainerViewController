@@ -9,13 +9,22 @@
 import UIKit
 import ContainerViewController
 
-class ViewController: UIViewController {
+class Example1ControllerView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.whiteColor()
-        self.title = "example"
+        self.title = "example1"
+
+        let rightButton: UIBarButtonItem = UIBarButtonItem(image: UIImage.init(named: "right-arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.tapExample2))
+        navigationItem.rightBarButtonItem = rightButton;
+
+        
         setup()
+    }
+    
+    func tapExample2() {
+        navigationController?.pushViewController(Example2ControllerView(), animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,7 +35,7 @@ class ViewController: UIViewController {
     func setup() {
         let playListVC:UIViewController = UIViewController()
         playListVC.title = "playListVC"
-        playListVC.view.backgroundColor = UIColor.blackColor()
+        playListVC.view.backgroundColor = UIColor.redColor()
         
         let artistVC:UIViewController = UIViewController()
         artistVC.title = "artistVC"
@@ -53,18 +62,19 @@ class ViewController: UIViewController {
         let statusHeight:CGFloat = UIApplication.sharedApplication().statusBarFrame.height
         let navigationHeight:CGFloat = (self.navigationController?.navigationBar.frame.height)!
         
-        
         let contaninerVC = TNContainerViewController.init(controllers: [playListVC,artistVC,sampleVC1,sampleVC2,sampleVC3,sampleVC4,sampleVC5], topBarHeight: statusHeight + navigationHeight, parentViewController: self)
         contaninerVC.menuItemFont = UIFont.systemFontOfSize(16)
+        contaninerVC.menuBackGroudColor = UIColor.whiteColor()
+        contaninerVC.menuWidth = 100
         contaninerVC.delegate = self
-        contaninerVC.menuIndicatorColor = UIColor.init(colorLiteralRed: 0.168627, green: 0.168627, blue: 0.168627, alpha: 1.0)
-        contaninerVC.menuItemTitleColor = UIColor.init(colorLiteralRed: 0.866667, green: 0.866667, blue: 0.866667, alpha: 1.0)
-        contaninerVC.menuItemSelectedTitleColor = UIColor.init(colorLiteralRed: 0.33333, green: 0.33333, blue: 0.33333, alpha: 1.0)
+        contaninerVC.menuIndicatorColor = UIColor.blueColor()
+        contaninerVC.menuItemTitleColor = UIColor.blackColor()
+        contaninerVC.menuItemSelectedTitleColor = UIColor.blueColor()
         self.view.addSubview(contaninerVC.view)
     }
 }
 
-extension ViewController : TNContainerViewControllerDelegate{
+extension Example1ControllerView : TNContainerViewControllerDelegate{
     func containerViewItem(index: NSInteger, currentController: UIViewController) {
         currentController.viewWillAppear(true)
     }

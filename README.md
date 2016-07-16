@@ -14,7 +14,7 @@ With the swift implementation ContainerViewController.
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-<img src="example.gif" height="500px">
+<img src="images/containerView.gif" height="500px">
 
 ## Requirements
 * Xcode 7.3+
@@ -60,13 +60,21 @@ pod "ContainerViewController"
         self.view.addSubview(contaninerVC.view)
 
 ## Property
-        contaninerVC.menuItemFont = UIFont.systemFontOfSize(16)
-		contaninerVC.menuIndicatorColor = UIColor.redColor()
-        contaninerVC.menuItemTitleColor = UIColor.purpleColor()
-        contaninerVC.menuItemSelectedTitleColor = UIColor.yellowColor() 
-        
+	contaninerVC.menuItemFont = UIFont.systemFontOfSize(16)
+	contaninerVC.menuBackGroudColor = UIColor.whiteColor()
+	contaninerVC.menuWidth = self.view.frame.width * 0.5 - 10.0
+	contaninerVC.indicatorHeight = 1.0
+	contaninerVC.menuViewHeight = 80
+	contaninerVC.menuIndicatorColor = UIColor.blueColor()
+	contaninerVC.menuItemTitleColor = UIColor.blackColor()
+	contaninerVC.menuItemSelectedTitleColor = UIColor.blueColor()        
 ## To Do
 
+## log
+
+**0.1.1** custom menuview height and item width
+
+**0.1.0** init
 
 ## Author
 
@@ -76,5 +84,4 @@ JiangTeng, teng.jiang@dianping.com
 
 ContainerViewController is available under the MIT license. See the LICENSE file for more info.
     
-## Licence
 MIT
