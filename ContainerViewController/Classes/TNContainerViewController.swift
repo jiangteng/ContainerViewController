@@ -30,12 +30,13 @@ public class TNContainerViewController: UIViewController {
     private var currentIndex:NSInteger?
     private var menuView:TNScrollMenuView?
     
+    public var bottomHeight:CGFloat = 0.0
+    
     public var menuViewHeight:CGFloat = 40
     
     public var menuWidth:CGFloat = 70
     public var menuMargin:CGFloat = 5.0
     public var indicatorHeight:CGFloat = 2.0
-
     
     public init(controllers:NSArray,topBarHeight:CGFloat,parentViewController:UIViewController){
         super.init(nibName: nil, bundle: nil)
@@ -66,7 +67,7 @@ public class TNContainerViewController: UIViewController {
         self.view.addSubview(viewCover)
         
         self.contentScrollView = UIScrollView.init()
-        self.contentScrollView?.frame = CGRectMake(0, topBarHeight! + menuViewHeight, self.view.frame.size.width, self.view.frame.size.height - topBarHeight! - menuViewHeight)
+        self.contentScrollView?.frame = CGRectMake(0, topBarHeight! + menuViewHeight, self.view.frame.size.width, self.view.frame.size.height - topBarHeight! - menuViewHeight - bottomHeight)
         self.contentScrollView?.backgroundColor = UIColor.clearColor()
         self.contentScrollView?.pagingEnabled = true
         self.contentScrollView!.delegate = self
@@ -109,7 +110,7 @@ public class TNContainerViewController: UIViewController {
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
        
-        self.contentScrollView?.frame = CGRectMake(0, topBarHeight! + menuViewHeight, self.view.frame.size.width, self.view.frame.size.height - topBarHeight! - menuViewHeight)
+        self.contentScrollView?.frame = CGRectMake(0, topBarHeight! + menuViewHeight, self.view.frame.size.width, self.view.frame.size.height - topBarHeight! - menuViewHeight - bottomHeight)
 
         self.contentScrollView?.contentSize = CGSizeMake((self.contentScrollView?.frame.width)! * CGFloat( self.childControllers.count), (self.contentScrollView?.frame.height)!)
 
