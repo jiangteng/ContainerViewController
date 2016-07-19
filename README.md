@@ -72,6 +72,8 @@ pod "ContainerViewController"
 
 ## log
 
+**0.1.2** add bottomHeight
+
 **0.1.1** custom menuview height and item width
 
 **0.1.0** init
