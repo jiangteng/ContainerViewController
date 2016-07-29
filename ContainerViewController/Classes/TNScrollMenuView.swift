@@ -127,18 +127,14 @@ class TNScrollMenuView: UIView {
     internal func setIndicatorViewFrame(ratio:CGFloat,isNextItem:Bool,toIndex:NSInteger){
         
         var indicatorX:CGFloat = 0.0
-        if isNextItem {
-            indicatorX = (menuViewMargin + menuViewWidth)*ratio+menuViewWidth*CGFloat(toIndex) + menuViewMargin*CGFloat(toIndex+1)
-        }else{
-            
-            indicatorX =  ((menuViewMargin + menuViewWidth) * CGFloat(1 - ratio) ) + (CGFloat(toIndex) * menuViewWidth) + (CGFloat(toIndex + 1) * menuViewMargin);
-        }
+        indicatorX = (menuViewMargin + menuViewWidth)*ratio+menuViewWidth*CGFloat(toIndex) + menuViewMargin*CGFloat(toIndex+1);
         
         if (indicatorX < menuViewMargin || indicatorX > self.scrollView!.contentSize.width - (menuViewMargin + menuViewWidth)) {
             return;
         }
-
+        
         self.indicatorView.frame = CGRectMake(indicatorX, (self.scrollView?.frame.size.height)! - indicatorHeight, menuViewWidth, indicatorHeight)
+
     }
     
     internal func setItem(itemTextColor:UIColor?,selectedItemTextColor:UIColor?,currentIndex:NSInteger){

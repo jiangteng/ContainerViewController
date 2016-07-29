@@ -172,33 +172,20 @@ extension TNContainerViewController : UIScrollViewDelegate{
         let isToNextItem:Bool = self.contentScrollView?.contentOffset.x > oldPointX
         let targetIndex:NSInteger = isToNextItem ? self.currentIndex! + 1 : self.currentIndex! - 1
         
-        var  nextItemOffsetX:CGFloat = 1.0
         var currentItemOffsetX:CGFloat = 1.0
+        var eachLastItemWidth:CGFloat = 0.0
         
+        eachLastItemWidth = (menuView!.scrollView!.contentSize.width - menuView!.scrollView!.frame.size.width) / CGFloat(menuView!.itemViewArray!.count - 1);
         
-        nextItemOffsetX = (menuView!.scrollView!.contentSize.width - menuView!.scrollView!.frame.size.width) * CGFloat(targetIndex) / CGFloat(menuView!.itemViewArray!.count - 1);
         currentItemOffsetX = (menuView!.scrollView!.contentSize.width - menuView!.scrollView!.frame.size.width) * CGFloat(self.currentIndex!) / CGFloat(menuView!.itemViewArray!.count - 1);
         
         if targetIndex >= 0 && targetIndex < self.childControllers.count {
             // MenuView Move
             var indicatorUpdateRatio:CGFloat = ratio;
-            if isToNextItem {
-                
-                var offset:CGPoint = menuView!.scrollView!.contentOffset;
-                offset.x = (nextItemOffsetX - currentItemOffsetX) * ratio + currentItemOffsetX;
-                menuView?.scrollView?.setContentOffset(offset, animated: false)
-                
-                indicatorUpdateRatio = indicatorUpdateRatio * 1;
-                menuView?.setIndicatorViewFrame(indicatorUpdateRatio, isNextItem: isToNextItem, toIndex: self.currentIndex!)
-            } else {
-                
-                var offset:CGPoint = menuView!.scrollView!.contentOffset;
-                offset.x = currentItemOffsetX - (nextItemOffsetX - currentItemOffsetX) * ratio;
-                menuView?.scrollView?.setContentOffset(offset, animated: false)
-                
-                indicatorUpdateRatio = indicatorUpdateRatio * -1;
-                menuView?.setIndicatorViewFrame(indicatorUpdateRatio, isNextItem: isToNextItem, toIndex: targetIndex)
-            }
+            var offset:CGPoint = menuView!.scrollView!.contentOffset;
+            offset.x = eachLastItemWidth * ratio + currentItemOffsetX;
+            menuView?.scrollView?.setContentOffset(offset, animated: false);
+            menuView?.setIndicatorViewFrame(ratio, isNextItem: isToNextItem, toIndex: self.currentIndex!)
         }
     }
     
