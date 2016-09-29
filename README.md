@@ -17,9 +17,9 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 <img src="images/containerView.gif" height="500px">
 
 ## Requirements
-* Xcode 7.3+
+* Xcode 8.0+
 * iOS 8.0+
-* Swift 2.2+
+* Swift 3.0+
 
 ## Installation
 
@@ -71,6 +71,8 @@ pod "ContainerViewController"
 ## To Do
 
 ## log
+
+**1.0.3** swift 3.0
 
 **0.1.2** add bottomHeight
 

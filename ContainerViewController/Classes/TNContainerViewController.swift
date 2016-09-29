@@ -7,42 +7,62 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 
 public protocol TNContainerViewControllerDelegate : class {
-   func containerViewItem(index: NSInteger, currentController:UIViewController);
+   func containerViewItem(_ index: NSInteger, currentController:UIViewController);
 }
 
-public class TNContainerViewController: UIViewController {
+open class TNContainerViewController: UIViewController {
 
-    public weak var delegate:TNContainerViewControllerDelegate?
-    public var contentScrollView : UIScrollView?
-    public var titles  = NSMutableArray()
-    public var childControllers = NSMutableArray()
+    open weak var delegate:TNContainerViewControllerDelegate?
+    open var contentScrollView : UIScrollView?
+    open var titles  = NSMutableArray()
+    open var childControllers = NSMutableArray()
     
-    public var menuItemFont:UIFont?
-    public var menuItemTitleColor:UIColor?
-    public var menuItemSelectedTitleColor:UIColor?
-    public var menuBackGroudColor:UIColor?
-    public var menuIndicatorColor:UIColor?
+    open var menuItemFont:UIFont?
+    open var menuItemTitleColor:UIColor?
+    open var menuItemSelectedTitleColor:UIColor?
+    open var menuBackGroudColor:UIColor?
+    open var menuIndicatorColor:UIColor?
     
-    private var topBarHeight:CGFloat?
-    private var currentIndex:NSInteger?
-    private var menuView:TNScrollMenuView?
+    fileprivate var topBarHeight:CGFloat?
+    fileprivate var currentIndex:NSInteger?
+    fileprivate var menuView:TNScrollMenuView?
     
-    public var bottomHeight:CGFloat = 0.0
+    open var bottomHeight:CGFloat = 0.0
     
-    public var menuViewHeight:CGFloat = 40
+    open var menuViewHeight:CGFloat = 40
     
-    public var menuWidth:CGFloat = 70
-    public var menuMargin:CGFloat = 5.0
-    public var indicatorHeight:CGFloat = 2.0
+    open var menuWidth:CGFloat = 70
+    open var menuMargin:CGFloat = 5.0
+    open var indicatorHeight:CGFloat = 2.0
     
     public init(controllers:NSArray,topBarHeight:CGFloat,parentViewController:UIViewController){
         super.init(nibName: nil, bundle: nil)
         
         parentViewController.addChildViewController(self)
-        self.didMoveToParentViewController(parentViewController)
+        self.didMove(toParentViewController: parentViewController)
         
         self.topBarHeight = topBarHeight
                 
@@ -50,7 +70,7 @@ public class TNContainerViewController: UIViewController {
         
         let tit = NSMutableArray()
         for vc:UIViewController in (self.childControllers as NSArray as! [UIViewController]){
-            tit.addObject(vc.valueForKey("title")!)
+            tit.add(vc.value(forKey: "title")!)
         }
         
         self.titles = tit.mutableCopy() as! NSMutableArray
@@ -60,42 +80,42 @@ public class TNContainerViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
         let viewCover = UIView()
         self.view.addSubview(viewCover)
         
         self.contentScrollView = UIScrollView.init()
-        self.contentScrollView?.frame = CGRectMake(0, topBarHeight! + menuViewHeight, self.view.frame.size.width, self.view.frame.size.height - topBarHeight! - menuViewHeight - bottomHeight)
-        self.contentScrollView?.backgroundColor = UIColor.clearColor()
-        self.contentScrollView?.pagingEnabled = true
+        self.contentScrollView?.frame = CGRect(x: 0, y: topBarHeight! + menuViewHeight, width: self.view.frame.size.width, height: self.view.frame.size.height - topBarHeight! - menuViewHeight - bottomHeight)
+        self.contentScrollView?.backgroundColor = UIColor.clear
+        self.contentScrollView?.isPagingEnabled = true
         self.contentScrollView!.delegate = self
         self.contentScrollView?.showsHorizontalScrollIndicator = false
         self.contentScrollView?.scrollsToTop = false
         self.view.addSubview(self.contentScrollView!)
         
-        self.contentScrollView?.contentSize = CGSizeMake((self.contentScrollView?.frame.width)! * CGFloat( self.childControllers.count), (self.contentScrollView?.frame.height)!)
+        self.contentScrollView?.contentSize = CGSize(width: (self.contentScrollView?.frame.width)! * CGFloat( self.childControllers.count), height: (self.contentScrollView?.frame.height)!)
         
         for index in 0..<self.childControllers.count {
-            let obj = self.childControllers.objectAtIndex(index)
+            let obj = self.childControllers.object(at: index)
             if obj is UIViewController {
                 let controller:UIViewController = obj as! UIViewController
                 let scrollWidth = contentScrollView!.frame.size.width;
                 let scrollHeght = contentScrollView!.frame.size.height;
-                controller.view.frame = CGRectMake(CGFloat(index) * scrollWidth, 0, scrollWidth, scrollHeght);
+                controller.view.frame = CGRect(x: CGFloat(index) * scrollWidth, y: 0, width: scrollWidth, height: scrollHeght);
                 contentScrollView!.addSubview(controller.view)
             }
         }
         
         // meunView
-        menuView = TNScrollMenuView.init(frame: CGRectMake(0, topBarHeight!, self.view.frame.size.width, menuViewHeight),mwidth: menuWidth,mmargin: menuMargin,mindicator: indicatorHeight)
-        menuView!.backgroundColor = UIColor.clearColor()
+        menuView = TNScrollMenuView.init(frame: CGRect(x: 0, y: topBarHeight!, width: self.view.frame.size.width, height: menuViewHeight),mwidth: menuWidth,mmargin: menuMargin,mindicator: indicatorHeight)
+        menuView!.backgroundColor = UIColor.clear
         menuView!.delegate = self;
         menuView!.viewbackgroundColor = self.menuBackGroudColor;
         menuView!.itemfont = self.menuItemFont;
-        menuView!.itemTitleColor = self.menuItemTitleColor;
-        menuView!.itemIndicatorColor = self.menuIndicatorColor;
+        menuView!.itemTitleColor = self.menuItemTitleColor!;
+        menuView!.itemIndicatorColor = self.menuIndicatorColor!;
         menuView!.scrollView!.scrollsToTop = false;
         
         menuView!.itemTitleArray = self.titles as NSArray as? [NSString]
@@ -107,38 +127,38 @@ public class TNContainerViewController: UIViewController {
         
     }
     
-    public override func viewWillLayoutSubviews() {
+    open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
        
-        self.contentScrollView?.frame = CGRectMake(0, topBarHeight! + menuViewHeight, self.view.frame.size.width, self.view.frame.size.height - topBarHeight! - menuViewHeight - bottomHeight)
+        self.contentScrollView?.frame = CGRect(x: 0, y: topBarHeight! + menuViewHeight, width: self.view.frame.size.width, height: self.view.frame.size.height - topBarHeight! - menuViewHeight - bottomHeight)
 
-        self.contentScrollView?.contentSize = CGSizeMake((self.contentScrollView?.frame.width)! * CGFloat( self.childControllers.count), (self.contentScrollView?.frame.height)!)
+        self.contentScrollView?.contentSize = CGSize(width: (self.contentScrollView?.frame.width)! * CGFloat( self.childControllers.count), height: (self.contentScrollView?.frame.height)!)
 
         for index in 0..<self.childControllers.count {
-            let obj = self.childControllers.objectAtIndex(index)
+            let obj = self.childControllers.object(at: index)
             if obj is UIViewController {
                 let controller:UIViewController = obj as! UIViewController
                 let scrollWidth = contentScrollView!.frame.size.width;
                 let scrollHeght = contentScrollView!.frame.size.height;
-                controller.view.frame = CGRectMake(CGFloat(index) * scrollWidth, 0, scrollWidth, scrollHeght);
+                controller.view.frame = CGRect(x: CGFloat(index) * scrollWidth, y: 0, width: scrollWidth, height: scrollHeght);
             }
         }
         
     }
     
-    private func setChildViewController(currentIndex:NSInteger){
+    fileprivate func setChildViewController(_ currentIndex:NSInteger){
         for index in 0..<self.childControllers.count {
-            let obj = self.childControllers.objectAtIndex(index)
+            let obj = self.childControllers.object(at: index)
             if obj is UIViewController {
                 let viewC = obj as! UIViewController
                 if index == currentIndex {
-                    viewC.willMoveToParentViewController(self)
+                    viewC.willMove(toParentViewController: self)
                     self.addChildViewController(viewC)
-                    viewC.didMoveToParentViewController(self)
+                    viewC.didMove(toParentViewController: self)
                 }else{
-                    viewC.willMoveToParentViewController(self)
+                    viewC.willMove(toParentViewController: self)
                     viewC.removeFromParentViewController()
-                    viewC.didMoveToParentViewController(self)
+                    viewC.didMove(toParentViewController: self)
                 }
             }
 
@@ -148,8 +168,8 @@ public class TNContainerViewController: UIViewController {
 
 extension TNContainerViewController : TNScrollMenuViewDelegate{
     
-    func scrollMenuViewSelectedIndex(index: NSInteger){
-        self.contentScrollView?.setContentOffset(CGPointMake(CGFloat(index)*(self.contentScrollView?.frame.width)!,0.0), animated: true)
+    func scrollMenuViewSelectedIndex(_ index: NSInteger){
+        self.contentScrollView?.setContentOffset(CGPoint(x: CGFloat(index)*(self.contentScrollView?.frame.width)!,y: 0.0), animated: true)
         
         self.menuView?.setItem(self.menuItemTitleColor, selectedItemTextColor: self.menuItemSelectedTitleColor, currentIndex: index)
         
@@ -165,7 +185,7 @@ extension TNContainerViewController : TNScrollMenuViewDelegate{
 }
 
 extension TNContainerViewController : UIScrollViewDelegate{
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let oldPointX:CGFloat = CGFloat(self.currentIndex!) * scrollView.frame.size.width
         let ratio:CGFloat = (scrollView.contentOffset.x - oldPointX)/scrollView.frame.size.width
         
@@ -189,7 +209,7 @@ extension TNContainerViewController : UIScrollViewDelegate{
         }
     }
     
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex:Int = Int(scrollView.contentOffset.x / contentScrollView!.frame.size.width)
         
         if (currentIndex == self.currentIndex) { return; }

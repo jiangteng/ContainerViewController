@@ -15,11 +15,11 @@ class Example2ControllerView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         title = "example2"
         
-        label = UILabel.init(frame: CGRectMake(0, 0, self.view.frame.width, 200))
-        label.backgroundColor = UIColor.redColor()
+        label = UILabel.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200))
+        label.backgroundColor = UIColor.red
         label.text = "我是占位图"
         
         setup()
@@ -30,22 +30,22 @@ class Example2ControllerView: UIViewController {
     func setup() {
         let sampleVC1:UIViewController = UIViewController()
         sampleVC1.title = "sampleVC1"
-        sampleVC1.view.backgroundColor = UIColor.blueColor()
+        sampleVC1.view.backgroundColor = UIColor.blue
         
         let sampleVC2:UIViewController = UIViewController()
         sampleVC2.title = "sampleVC2"
         
         
         let contaninerVC = TNContainerViewController.init(controllers: [sampleVC1,sampleVC2], topBarHeight: 200, parentViewController: self)
-        contaninerVC.menuItemFont = UIFont.systemFontOfSize(16)
-        contaninerVC.menuBackGroudColor = UIColor.whiteColor()
+        contaninerVC.menuItemFont = UIFont.systemFont(ofSize: 16)
+        contaninerVC.menuBackGroudColor = UIColor.white
         contaninerVC.menuWidth = self.view.frame.width * 0.5 - 10.0
         contaninerVC.indicatorHeight = 1.0
         contaninerVC.menuViewHeight = 80
         contaninerVC.delegate = self
-        contaninerVC.menuIndicatorColor = UIColor.blueColor()
-        contaninerVC.menuItemTitleColor = UIColor.blackColor()
-        contaninerVC.menuItemSelectedTitleColor = UIColor.blueColor()
+        contaninerVC.menuIndicatorColor = UIColor.blue
+        contaninerVC.menuItemTitleColor = UIColor.black
+        contaninerVC.menuItemSelectedTitleColor = UIColor.blue
         self.view.addSubview(contaninerVC.view)
     }
     
@@ -57,7 +57,7 @@ class Example2ControllerView: UIViewController {
 }
 
 extension Example2ControllerView : TNContainerViewControllerDelegate{
-    func containerViewItem(index: NSInteger, currentController: UIViewController) {
+    func containerViewItem(_ index: NSInteger, currentController: UIViewController) {
         currentController.viewWillAppear(true)
     }
 }
