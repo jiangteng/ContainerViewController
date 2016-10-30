@@ -1,5 +1,5 @@
 PODS:
-  - ContainerViewController (0.1.0)
+  - ContainerViewController (1.0.3)
 
 DEPENDENCIES:
   - ContainerViewController (from `../`)
@@ -9,6 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ContainerViewController: ea0f5f921b280fcd87d803c249b3bf7a970a1a32
+  ContainerViewController: 74235e3c1aeeafe32a27bc535ec5741d08e540ce
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 9e49f25efbe2afe5b6cead0cc6dc147c2d052daa
+
+COCOAPODS: 1.1.0.rc.2

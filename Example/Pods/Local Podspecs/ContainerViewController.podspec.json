@@ -1,6 +1,6 @@
 {
   "name": "ContainerViewController",
-  "version": "0.1.0",
+  "version": "1.0.3",
   "summary": "ContainerViewController.",
   "description": "Add long description of the pod here.",
   "homepage": "https://github.com/jiangteng/ContainerViewController",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/jiangteng/ContainerViewController.git",
-    "tag": "0.1.0"
+    "tag": "1.0.3"
   },
   "platforms": {
     "ios": "8.0"

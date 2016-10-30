@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ContainerViewController'
-  s.version          = '1.0.3'
+  s.version          = '1.0.4'
   s.summary          = 'ContainerViewController.'
 
   s.description      = <<-DESC

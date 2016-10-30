@@ -72,6 +72,8 @@ pod "ContainerViewController"
 
 ## log
 
+**1.0.4**  Carthage 版本8.0 
+
 **1.0.3** swift 3.0
 
 **0.1.2** add bottomHeight
