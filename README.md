@@ -84,7 +84,7 @@ pod "ContainerViewController"
 
 ## Author
 
-JiangTeng, teng.jiang@dianping.com
+JiangTeng, jiangteng.cn@gmail.com
 
 ## License
 
